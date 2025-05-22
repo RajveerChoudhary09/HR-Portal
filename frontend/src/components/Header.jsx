@@ -32,7 +32,7 @@ const Header = () => {
             About Us
           </Link>
           <Link to="/contact" className="text-gray-700 hover:text-blue-500">
-            Contact
+            Contact Us
           </Link>
           <Link to="/login" className="text-gray-700 hover:text-blue-500">
             Login
