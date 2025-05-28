@@ -6,20 +6,23 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Aboutus from "./pages/Aboutus";
 import Contact from "./pages/Contact";
-// import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard";
+import { Toaster } from "react-hot-toast";
+
 
 const App = () => {
   return (
     <>
+      <Toaster />
       <Router>
-       <Header/>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/aboutus" element={<Aboutus/>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />{" "}
+          <Route path="/aboutus" element={<Aboutus />} />
           <Route path="/contact" element={<Contact />} />
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </Router>
     </>
