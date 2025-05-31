@@ -6,7 +6,7 @@ const Aboutus = () => {
       <div className="text-center text-white max-w-3xl">
         <h1 className="text-5xl font-extrabold mb-6 drop-shadow-lg">About Us</h1>
         <p className="text-lg mb-4 text-white/90 leading-relaxed">
-          We are a passionate team committed to delivering innovative solutions and exceptional services.
+          W are a passionate team committed to delivering innovative solutions and exceptional services.
           Our mission is to empower businesses and individuals with cutting-edge technology and creative design.
         </p>
         <p className="text-lg mb-6 text-white/90 leading-relaxed">
