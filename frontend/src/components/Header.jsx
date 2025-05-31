@@ -8,7 +8,7 @@ const Header = () => {
        
         <div className="flex items-center gap-3">
           {/* House Icon */}
-          <div className="p-2 bg-indigo-100 rounded-full">
+          <div className="p-2 bg-indigo-101 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-8 w-8 text-indigo-600"
