@@ -1,6 +1,7 @@
-import User from "../models/usermodel.js";
+import genAuthToken  from "../config/jwttoken.js";
+import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
 
@@ -80,21 +81,16 @@ export const userlogin = async (req, res) => {
     const existingUser = await User.findOne({ email });
 
     if (!existingUser) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "user not found" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, existingUser.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "user not found" });
     }
 
- 
-    const token = jwt.sign(
-      { userId: existingUser._id, email: existingUser.email },
-      JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+    genAuthToken(User._id, res);
 
     res.status(200).json({
       message: "Login successful",
@@ -105,7 +101,7 @@ export const userlogin = async (req, res) => {
         department: existingUser.department,
       
       },
-      token,
+      
     });
   } catch (e) {
     console.error("Login error:", e);

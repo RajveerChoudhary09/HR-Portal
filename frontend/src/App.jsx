@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import { Toaster } from "react-hot-toast";
 
 
+
 const App = () => {
   return (
     <>
@@ -22,7 +23,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />{" "}
           <Route path="/aboutus" element={<Aboutus />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard/>} />
         </Routes>
       </Router>
     </>

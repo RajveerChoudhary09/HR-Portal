@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom"; // ← import useLocation
 import {
   Bell,
   User,
@@ -14,11 +13,9 @@ import {
 } from "lucide-react";
 
 const Dashboard = () => {
-  const location = useLocation();
-  const loggedInName = location.state?.name || "Employee"; // Fallback to generic
-
   const [active, setActive] = useState("Dashboard");
   const [profileImage, setProfileImage] = useState(null);
+  const employeeName = "Employee";
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -41,7 +38,7 @@ const Dashboard = () => {
             {profileImage ? (
               <img src={profileImage} alt="Profile" className="object-cover w-full h-full" />
             ) : (
-              loggedInName[0]?.toUpperCase() // First letter of name
+              employeeName[0]
             )}
             <label className="absolute bottom-0 right-0 bg-white rounded-full p-1 cursor-pointer">
               <Camera size={14} className="text-indigo-500" />
@@ -54,7 +51,7 @@ const Dashboard = () => {
             </label>
           </div>
           <div>
-            <h2 className="text-lg font-bold text-indigo-700">{loggedInName}</h2>
+            <h2 className="text-lg font-bold text-indigo-700">{employeeName}</h2>
             <p className="text-indigo-500 text-sm">
               Blood: <span className="text-red-600">B+</span>
             </p>
@@ -97,7 +94,7 @@ const Dashboard = () => {
           <h1 className="text-4xl font-bold text-indigo-800">
             {active === "Dashboard"
               ? "Welcome to Your Employee Dashboard"
-              : `Employee Dashboard — ${active}`}
+              : `Employee Dashboard  ${active}`}
           </h1>
           <div className="flex items-center gap-4">
             <Bell className="text-indigo-600" />
@@ -105,6 +102,7 @@ const Dashboard = () => {
           </div>
         </header>
 
+        {/* Dashboard Content */}
         {active === "Dashboard" ? (
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card title="Your Attendance Days" value="113" />
@@ -124,6 +122,7 @@ const Dashboard = () => {
   );
 };
 
+// Reusable Card Component
 const Card = ({ title, value }) => (
   <div className="bg-white/80 rounded-2xl p-6 shadow-md backdrop-blur-md hover:scale-105 hover:shadow-xl transition-all duration-300">
     <h2 className="text-gray-500">{title}</h2>
