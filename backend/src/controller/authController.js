@@ -1,19 +1,16 @@
-import genAuthToken  from "../config/jwttoken.js";
-import User from "../models/userModel.js";
-import bcrypt from "bcrypt";
+import User from "../models/usermodel.js";
+import bcrypt from "bcrypt"
+import generateToken from "../config/jwtToken.js";
 
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
-
-// Register
 export const userRegister = async (req, res) => {
   try {
     const {
       fullName,
       email,
       phone,
-      gender,
       dob,
+      gender,
       qualification,
       department,
       position,
@@ -26,22 +23,17 @@ export const userRegister = async (req, res) => {
       !fullName ||
       !email ||
       !phone ||
+      !dob ||
+      !gender ||
       !qualification ||
       !department ||
       !position ||
       !hiringDate ||
       !salary ||
-      !password ||
-      !gender ||
-      !dob
+      !password
     ) {
-      return res.status(400).json({ message: "All fields required" });
-    }
-
-    // Check if user exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(409).json({ message: "User already exists" });
+      console.log("all fields required");
+      return;
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -50,63 +42,69 @@ export const userRegister = async (req, res) => {
       fullName,
       email,
       phone,
-      gender,
       dob,
+      gender,
       qualification,
       department,
       position,
       hiringDate,
       salary,
-      password: hashedPassword,
+      password:hashedPassword ,
       status: "Active",
-      profilePic: "",
     });
 
-    res.status(201).json({ message: "User Created", user: newUser });
+   
+
+    res.status(200).json({ messsage: "User Created ", newUser });
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: "Server error" });
+    console.log(e.message);
   }
 };
 
-// Login
-export const userlogin = async (req, res) => {
+export const userLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+      const error = new Error("All fields are required");
+      error.statusCode = 400;
+      return next(error);
     }
 
-    const existingUser = await User.findOne({ email });
-
-    if (!existingUser) {
-      return res.status(401).json({ message: "user not found" });
+    const user = await User.findOne({ email });
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      return next(error);
     }
 
-    const isPasswordValid = await bcrypt.compare(password, existingUser.password);
-
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "user not found" });
+      const error = new Error("Invalid password");
+      error.statusCode = 401;
+      return next(error);
     }
 
-    genAuthToken(User._id, res);
-
-    res.status(200).json({
-      message: "Login successful",
+    //generate token
+      generateToken(user._id , res);
+    
+    res.status(200).json({ message: "User logged in successfully",
       user: {
-        email: existingUser.email,
-        fullName: existingUser.fullName,
-        phone: existingUser.phone,
-        department: existingUser.department,
-      
+       fullName: user.fullName,
+      email: user.email,
+      phone: user.phone,
+      dob:user.dob,
+      gender:user.gender,
+      qualification:user.qualification,
+      department:user.department,
+      position:user.position,
+      hiringDate:user.hiringDate,
+      salary:user.salary,
+      password:user.password,
       },
       
     });
-  } catch (e) {
-    console.error("Login error:", e);
-    res.status(500).json({ message: "Internal server error" });
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
 };
-
-

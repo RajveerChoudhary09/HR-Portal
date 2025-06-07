@@ -89,36 +89,8 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-y-auto">
-        <header className="flex justify-between items-center mb-10">
-          <h1 className="text-4xl font-bold text-indigo-800">
-            {active === "Dashboard"
-              ? "Welcome to Your Employee Dashboard"
-              : `Employee Dashboard  ${active}`}
-          </h1>
-          <div className="flex items-center gap-4">
-            <Bell className="text-indigo-600" />
-            <User className="text-indigo-600" />
-          </div>
-        </header>
-
-        {/* Dashboard Content */}
-        {active === "Dashboard" ? (
-          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card title="Your Attendance Days" value="113" />
-            <Card title="Leaves Taken" value="6" />
-            <Card title="Open Complaints" value="1" />
-            <Card title="Suggestions Submitted" value="4" />
-            <Card title="Performance Rating" value="4.5 / 5" />
-            <Card title="Current Project" value="Project Phoenix" />
-          </section>
-        ) : (
-          <div className="bg-white/80 rounded-2xl p-10 shadow-md backdrop-blur-md text-indigo-800 text-xl">
-            This is the <strong>{active}</strong> section.
-          </div>
-        )}
-      </main>
-    </div>
+      {active === "Dashboard" && <empDashboard/>}
+        </div>
   );
 };
 
