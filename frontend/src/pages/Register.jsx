@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
+import axios from "../config/api";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -95,7 +95,7 @@ const Register = () => {
     if (!validate()) return;
 
     try {
-      const res = await axios.post("http://localhost:4500/auth/register", data);
+      const res = await axios.post("auth/register", data);
       toast.success(res.data.message || "Registration successful!");
 
       // Reset form

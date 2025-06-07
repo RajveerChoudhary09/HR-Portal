@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../config/api";
 import toast from "react-hot-toast";
 
 const Login = () => {
@@ -46,7 +46,7 @@ const Login = () => {
     if (!validate()) return;
 
     try {
-      const res = await axios.post("http://localhost:4500/auth/login", data);
+      const res = await axios.post("auth/login", data);
       if (res.status === 200) {
         toast.success("Welcome back!");
         navigate("/dashboard");

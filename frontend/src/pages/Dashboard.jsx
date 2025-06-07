@@ -11,8 +11,12 @@ import {
   FileText,
   Camera,
 } from "lucide-react";
+import EmpDashboard from "../components/Dashboard/EmpDashboard";
+import { useEffect } from "react";
+import axios from "../config/api";
 
 const Dashboard = () => {
+  const [empData, setEmpData] = useState();
   const [active, setActive] = useState("Dashboard");
   const [profileImage, setProfileImage] = useState(null);
   const employeeName = "Employee";
@@ -28,6 +32,21 @@ const Dashboard = () => {
     }
   };
 
+  const fetchEmpProfile = async () => {
+    try {
+      const res = await axios.get("user/profile");
+
+      setEmpData(res.data.user);
+      
+    } catch (e) {
+      console.log("Not Found");
+    }
+  };
+
+  useEffect(() => {
+    fetchEmpProfile();
+  }, []);
+
   return (
     <div className="flex h-screen bg-gradient-to-tr from bg-amber-300 via-pink-500 to-red-300">
       {/* Sidebar */}
@@ -36,7 +55,11 @@ const Dashboard = () => {
           {/* Profile Image or First Letter */}
           <div className="relative w-12 h-12 rounded-full bg-indigo-300 flex items-center justify-center text-white font-bold text-xl overflow-hidden">
             {profileImage ? (
-              <img src={profileImage} alt="Profile" className="object-cover w-full h-full" />
+              <img
+                src={profileImage}
+                alt="Profile"
+                className="object-cover w-full h-full"
+              />
             ) : (
               employeeName[0]
             )}
@@ -51,7 +74,9 @@ const Dashboard = () => {
             </label>
           </div>
           <div>
-            <h2 className="text-lg font-bold text-indigo-700">{employeeName}</h2>
+            <h2 className="text-lg font-bold text-indigo-700">
+              {empData.fullName}
+            </h2>
             <p className="text-indigo-500 text-sm">
               Blood: <span className="text-red-600">B+</span>
             </p>
@@ -89,8 +114,8 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content */}
-      {active === "Dashboard" && <empDashboard/>}
-        </div>
+      {active === "Dashboard" && <EmpDashboard />}
+    </div>
   );
 };
 
